@@ -1,0 +1,147 @@
+@import "node_modules/react-select/scss/default";
+
+.dropzone {
+  margin-bottom: 20px;
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border .2s ease-in-out, background-image .2s ease-in-out;
+
+  &:hover, &.dz-drag-hover {
+    border-color: #23527c;
+  }
+
+  &.dz-drag-hover {
+    background-color: #fff;
+    $stripe-color: #efefef;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, $stripe-color 35px, $stripe-color 70px);
+  }
+}
+
+.dropzone .dz-message {
+  margin: 0 !important;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.filterForm {
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tagsFilter {
+  width: calc(40% - 10px);
+}
+
+.textFilter {
+  width: calc(60% - 10px);
+}
+
+.fileList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 0 -10px;
+
+  & > div {
+    width: calc(25% - 20px);
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .thumbnail:hover, .thumbnail:hover .caption {
+    border-color: #23527c;
+  }
+
+  .link {
+    display: block;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .caption {
+    border-top: 1px solid #ddd;
+    transition: border .2s ease-in-out;
+    margin-top: 4px;
+  }
+
+  .actions {
+    float: right;
+
+    .edit, .delete {
+      margin-left: .5em;
+      cursor: pointer;
+      color: #777;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    .edit:hover {
+      color: #000;
+    }
+
+    .delete:hover {
+      color: red;
+    }
+  }
+
+  .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tags {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & > li {
+      display: inline-block;
+      font-size: 75%;
+      padding: .33em .5em;
+      background-color: #ddd;
+      border-radius: .5em;
+      margin-right: .5em;
+    }
+  }
+}
+
+.fileEditBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.fileEditWindow {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 50%;
+  min-width: 400px;
+  height: 60%;
+  min-height: 300px;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: #fff;
+  padding: .5em;
+  display: flex;
+}
+
+.fileEditPreview{
+  overflow: hidden;
+  border: none;
+  margin-right: .5em;
+}
+
+.fileEditForm {
+  flex: 1 0 auto;
+}

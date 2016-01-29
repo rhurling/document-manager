@@ -23,6 +23,7 @@ class CreateFilesTable extends Migration
                 $table->longText( 'content' )->nullable();
 
                 $table->unique( 'uuid' );
+                $table->engine = 'MyISAM';
             }
         );
 

@@ -41,7 +41,7 @@
 
             <!-- Branding Image -->
             <a class="navbar-brand" href="{{ url('/') }}">
-                Laravel
+                Document Management
             </a>
         </div>
 

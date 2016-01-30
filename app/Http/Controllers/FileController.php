@@ -106,7 +106,7 @@ class FileController extends Controller
             $file->retag( $request->get( 'tags' ) );
         }
 
-        return $request->all();
+        return $file;
     }
 
     /**

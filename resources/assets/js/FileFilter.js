@@ -10,11 +10,6 @@ class FileFilter extends React.Component {
         onFilterChange: React.PropTypes.func.isRequired
     };
 
-    state = {
-        tags: [],
-        options: []
-    };
-
     constructor() {
         super();
 
@@ -22,15 +17,9 @@ class FileFilter extends React.Component {
         this.handleTagChange = this.handleTagChange.bind(this);
     }
 
-    componentDidMount() {
-        this.setState({
-            tags: this.props.filter.tags
-        });
-    }
-
     handleChange() {
         this.props.onFilterChange({
-            tags: this.state.tags,
+            tags: this.props.filter.tags,
             text: this.refs.textInput.value
         });
     }
@@ -40,14 +29,15 @@ class FileFilter extends React.Component {
             tags = [];
         }
 
-        this.setState({
-            tags: tags
-        }, this.handleChange);
+        this.props.onFilterChange({
+            tags: tags,
+            text: this.refs.textInput.value
+        });
     }
 
     render() {
         return <form className="filterForm">
-            <TagSelect className="tagsFilter" placeholder="Filtern..." tags={this.state.tags}
+            <TagSelect className="tagsFilter" placeholder="Filtern..." tags={this.props.filter.tags}
                        onTagChange={this.handleTagChange}/>
             <input type="text" placeholder="Suchen..." ref="textInput" className="textFilter form-control"
                    value={this.props.filter.text} onChange={this.handleChange}/>

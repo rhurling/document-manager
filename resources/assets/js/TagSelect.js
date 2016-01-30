@@ -56,7 +56,7 @@ class TagSelect extends React.Component {
             .then((response) => response.json())
             .then((responseData) => {
                 var options = responseData.map(function (item) {
-                    return {value: item.name, label: item.name};
+                    return {value: item.name, label: item.name + ' (' + item.count + ')'};
                 });
                 this.setState({
                     options: options

@@ -23,6 +23,13 @@ class FileApp extends React.Component {
     constructor() {
         super();
 
+        if (window.history.state) {
+            let state = window.history.state || {};
+            this.state.current_page = state.page || 1;
+            this.state.filter.text = state.filter_text || '';
+            this.state.filter.tags = state.filter_tags || [];
+        }
+
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handleChangedData = this.handleChangedData.bind(this);
@@ -34,6 +41,23 @@ class FileApp extends React.Component {
 
     componentDidMount() {
         this.fetchData();
+
+        window.addEventListener('popstate', (evt) => {
+            if (!evt.state) {
+                evt.state = {}
+            }
+
+            this.setState({
+                current_page: evt.state.page || 1,
+                filter: {
+                    text: evt.state.filter_text || '',
+                    tags: evt.state.filter_tags || []
+                }
+            }, () => {
+                this.fetchData();
+                this.refs.FileFilter.forceUpdate();
+            });
+        })
     }
 
     fetchData() {
@@ -54,6 +78,12 @@ class FileApp extends React.Component {
             });
             args += 'tags=' + encodeURIComponent(tags.join(',')) + '&';
         }
+
+        window.history.pushState({
+            page: this.state.current_page,
+            filter_text: this.state.filter.text,
+            filter_tags: this.state.filter.tags
+        }, null, args);
 
         fetch(
             '/file' + args,
@@ -77,7 +107,8 @@ class FileApp extends React.Component {
 
     handlePageChange(page) {
         this.setState({
-            current_page: page
+            current_page: page,
+            selection: []
         }, this.fetchData);
     }
 
@@ -104,8 +135,6 @@ class FileApp extends React.Component {
     }
 
     handleSave() {
-        this.refs.FileFilter.loadOptions();
-        this.refs.FileEdit.loadOptions();
         this.fetchData();
     }
 

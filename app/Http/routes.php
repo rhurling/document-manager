@@ -48,11 +48,8 @@ Route::group(
     [ 'middleware' => 'api' ],
     function () {
         Route::resource( 'file', 'FileController', [ 'except' => [ 'create', 'edit' ] ] );
-        Route::get(
-            'tags',
-            function () {
-                return File::existingTags();
-            }
-        );
+        Route::get( 'tags', 'TagController@index' );
+        Route::put( 'tags/multi/add', 'TagController@multi_add' );
+        Route::put( 'tags/multi/remove', 'TagController@multi_remove' );
     }
 );

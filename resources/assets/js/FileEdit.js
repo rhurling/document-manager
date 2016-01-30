@@ -1,5 +1,5 @@
 import React from 'react';
-import Select from 'react-select';
+import TagSelect from './TagSelect';
 
 class FileEdit extends React.Component {
 
@@ -24,10 +24,6 @@ class FileEdit extends React.Component {
         this.handleSave = this.handleSave.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleTagChange = this.handleTagChange.bind(this);
-        this.loadOptions = this.loadOptions.bind(this);
-        this.filterOptions = this.filterOptions.bind(this);
-
-        this.loadOptions();
     }
 
     open(item) {
@@ -92,43 +88,6 @@ class FileEdit extends React.Component {
         });
     }
 
-    loadOptions() {
-        return fetch(
-            '/tags',
-            {credentials: 'same-origin'}
-        )
-            .then((response) => response.json())
-            .then((responseData) => {
-                var options = responseData.map(function (item) {
-                    return {value: item.name, label: item.name};
-                });
-                this.setState({
-                    options: options
-                });
-            })
-    }
-
-    filterOptions(options, filter, values) {
-        var filtered_options = [];
-        values = values.map(function(item){
-            return item.value;
-        });
-        options.forEach(function (item) {
-            if (values.indexOf(item.value) !== -1) {
-                return;
-            }
-
-            if (item.value.indexOf(filter) !== -1) {
-                filtered_options.push(item);
-            }
-        });
-
-        if (filter.trim().length > 0) {
-            filtered_options.push({value: filter, label: filter});
-        }
-        return filtered_options;
-    }
-
     render() {
         let style = {display: this.state.opened ? 'block' : 'none'};
         var fileEditWindow;
@@ -143,9 +102,7 @@ class FileEdit extends React.Component {
                     </div>
                     <div className="form-group">
                         <label htmlFor="tagsInput">Tags:</label>
-                        <Select name="tags" value={this.state.tags} multi={true} delimiter=","
-                                options={this.state.options} filterOptions={this.filterOptions}
-                                onChange={this.handleTagChange}/>
+                        <TagSelect tags={this.state.tags} allowCreate={true} onTagChange={this.handleTagChange}/>
                     </div>
                     <button type="submit" className="btn btn-primary">Speichern</button>
                 </form>

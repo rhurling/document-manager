@@ -4,6 +4,8 @@ class FileItem extends React.Component {
 
     static propTypes = {
         item: React.PropTypes.object.isRequired,
+        selection: React.PropTypes.array.isRequired,
+        onSelect: React.PropTypes.func.isRequired,
         onEditRequest: React.PropTypes.func.isRequired,
         onDelete: React.PropTypes.func.isRequired
     };
@@ -11,8 +13,13 @@ class FileItem extends React.Component {
     constructor() {
         super();
 
+        this.handleSelect = this.handleSelect.bind(this);
         this.handleEditRequest = this.handleEditRequest.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+    }
+
+    handleSelect() {
+        this.props.onSelect(this.props.item.uuid)
     }
 
     handleEditRequest(evt) {
@@ -34,7 +41,17 @@ class FileItem extends React.Component {
     }
 
     render() {
-        return <div className="thumbnail">
+        var className = 'thumbnail',
+            selected = this.props.selection.indexOf(this.props.item.uuid) != -1;
+
+        if (selected) {
+            className += ' selected';
+        }
+
+        return <div className={className}>
+            <label className="multi-select">
+                <input type="checkbox" onChange={this.handleSelect} checked={selected}/>
+            </label>
             <a href={'/file/' + this.props.item.uuid + '/pdf'} className="link">
                 <img src={'/file/' + this.props.item.uuid + '/image'} alt={this.props.item.title}/>
             </a>

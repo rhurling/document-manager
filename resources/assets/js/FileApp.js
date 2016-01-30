@@ -5,11 +5,13 @@ import FileUpload from './FileUpload';
 import FileItem from './FileItem';
 import FilePagination from './FilePagination';
 import FileEdit from './FileEdit';
+import FileMultiEdit from './FileMultiEdit';
 
 class FileApp extends React.Component {
 
     state = {
         items: [],
+        selection: [],
         current_page: 1,
         last_page: 1,
         filter: {
@@ -24,8 +26,10 @@ class FileApp extends React.Component {
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.handleChangedData = this.handleChangedData.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
         this.handleEditRequest = this.handleEditRequest.bind(this);
         this.handleSave = this.handleSave.bind(this);
+        this.handleClearSelection = this.handleClearSelection.bind(this);
     }
 
     componentDidMount() {
@@ -81,6 +85,20 @@ class FileApp extends React.Component {
         this.fetchData();
     }
 
+    handleSelect(uuid) {
+        var selection = this.state.selection,
+            index = selection.indexOf(uuid);
+        if (index === -1) {
+            selection.push(uuid);
+        } else {
+            selection.splice(index, 1);
+        }
+
+        this.setState({
+            selection: selection
+        });
+    }
+
     handleEditRequest(item) {
         this.refs.FileEdit.open(item);
     }
@@ -91,15 +109,25 @@ class FileApp extends React.Component {
         this.fetchData();
     }
 
+    handleClearSelection() {
+        this.setState({
+            selection: []
+        });
+    }
+
     render() {
         return <div className="container">
             <FileFilter ref="FileFilter" onFilterChange={this.handleFilterChange} filter={this.state.filter}/>
+
+            <FileMultiEdit selection={this.state.selection} onChange={this.handleChangedData}
+                           onClearSelection={this.handleClearSelection}/>
 
             <div className="fileList">
                 <FileUpload tags={this.state.filter.tags} onUpload={this.handleChangedData}/>
 
                 {this.state.items.map((item) => {
-                    return <FileItem key={item.uuid} item={item} onEditRequest={this.handleEditRequest}
+                    return <FileItem key={item.uuid} item={item} selection={this.state.selection}
+                                     onSelect={this.handleSelect} onEditRequest={this.handleEditRequest}
                                      onDelete={this.handleChangedData}/>;
                 })}
             </div>

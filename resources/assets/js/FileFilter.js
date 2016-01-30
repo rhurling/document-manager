@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Select from 'react-select';
+import TagSelect from './TagSelect';
 
 class FileFilter extends React.Component {
 
@@ -19,9 +20,6 @@ class FileFilter extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleTagChange = this.handleTagChange.bind(this);
-        this.loadOptions = this.loadOptions.bind(this);
-
-        this.loadOptions();
     }
 
     componentDidMount() {
@@ -47,26 +45,10 @@ class FileFilter extends React.Component {
         }, this.handleChange);
     }
 
-    loadOptions() {
-        return fetch(
-            '/tags',
-            {credentials: 'same-origin'}
-        )
-            .then((response) => response.json())
-            .then((responseData) => {
-                var options = responseData.map(function (item) {
-                    return {value: item.name, label: item.name};
-                });
-                this.setState({
-                    options: options
-                });
-            })
-    }
-
     render() {
         return <form className="filterForm">
-            <Select name="tags" value={this.state.tags} className="tagsFilter" multi={true} delimiter=","
-                    options={this.state.options} onChange={this.handleTagChange}/>
+            <TagSelect className="tagsFilter" placeholder="Filtern..." tags={this.state.tags}
+                       onTagChange={this.handleTagChange}/>
             <input type="text" placeholder="Suchen..." ref="textInput" className="textFilter form-control"
                    value={this.props.filter.text} onChange={this.handleChange}/>
         </form>

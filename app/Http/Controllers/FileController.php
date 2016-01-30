@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class FileController extends Controller
 {
@@ -138,6 +138,10 @@ class FileController extends Controller
 
     public function file_image( $uuid )
     {
-        return \Response::download( storage_path( 'app/previews/' . $uuid . '.png' ), null, $this->file_headers, null );
+        try {
+            return \Response::download( storage_path( 'app/previews/' . $uuid . '.png' ), null, $this->file_headers, null );
+        } catch ( FileException $e ) {
+            return \Response::download( storage_path( 'app/previews/_loading.gif' ), null, [], null );
+        }
     }
 }

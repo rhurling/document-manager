@@ -100,7 +100,7 @@ class FileController extends Controller
 
         $file->title = $request->get( 'title' );
         $file->save();
-        if ( empty( $request->get( 'tags' ) )) {
+        if (empty( $request->get( 'tags' ) )) {
             $file->untag();
         } else {
             $file->retag( $request->get( 'tags' ) );
@@ -139,9 +139,23 @@ class FileController extends Controller
     public function file_image( $uuid )
     {
         try {
-            return \Response::download( storage_path( 'app/previews/' . $uuid . '.png' ), null, $this->file_headers, null );
+            return \Response::download(
+                storage_path( 'app/previews/' . $uuid . '.png' ),
+                null,
+                $this->file_headers,
+                null
+            );
         } catch ( FileException $e ) {
-            return \Response::download( storage_path( 'app/previews/_loading.gif' ), null, [], null );
+            return \Response::download(
+                storage_path( 'app/previews/_loading.gif' ),
+                null,
+                [
+                    'Cache-Control' => 'no-cache, no-store, must-revalidate',
+                    'Pragma'        => 'no-cache',
+                    'Expires'       => '0'
+                ],
+                null
+            );
         }
     }
 }

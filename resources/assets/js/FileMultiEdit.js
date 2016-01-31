@@ -65,7 +65,8 @@ class FileMultiEdit extends React.Component {
         })
             .then(() => {
                 this.props.onChange();
-                this.setState(this.defaultState)
+                this.props.onClearSelection();
+                this.setState(this.defaultState);
             });
     }
 

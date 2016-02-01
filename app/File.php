@@ -31,9 +31,9 @@ class File extends Model
      */
     protected $fillable = [ 'user_id', 'title' ];
 
-    protected $hidden = [ 'id' ];
+    protected $hidden = [ 'id', 'content' ];
 
-    protected $searchableColumns = [ 'title' => 10, 'content' => 5, 'tagged.tag_name' => 15 ];
+    protected $searchableColumns = [ 'title' => 1.1, 'content' ];
 
     protected static function boot()
     {

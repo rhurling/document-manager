@@ -16,7 +16,7 @@ class CreateFilesTable extends Migration
             'files',
             function ( Blueprint $table ) {
                 $table->increments( 'id' );
-                $table->timestamps();
+                $table->nullableTimestamps();
                 $table->unsignedInteger( 'user_id' );
                 $table->string( 'uuid' );
                 $table->string( 'title' );

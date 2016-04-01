@@ -1,5 +1,9 @@
 @import "node_modules/react-select/scss/default";
 
+.fa-btn {
+  margin-right: 6px;
+}
+
 .dropzone {
   margin-bottom: 20px;
   position: relative;
@@ -236,6 +240,7 @@
   bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
 }
 
 .fileEditWindow {
@@ -250,6 +255,7 @@
   background-color: #fff;
   padding: .5em;
   display: flex;
+  z-index: 20;
 }
 
 .fileEditPreview {
@@ -262,4 +268,21 @@
 .fileEditForm {
   flex: 1 0 auto;
   max-width: 400px;
+}
+
+@media screen and (min-width: 768px) and (orientation: portrait) {
+  .fileEditWindow {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .fileEditPreview {
+    width: 100%;
+  }
+
+  .fileEditForm {
+    min-width: 300px;
+    flex-grow: 0;
+    padding: 1em 0 .5em;
+  }
 }
